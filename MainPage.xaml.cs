@@ -1,6 +1,11 @@
 ﻿using Microsoft.Maui.Storage;
 using System.Diagnostics;
 using System.Reflection;
+using org.apache.pdfbox.pdmodel;
+using org.apache.pdfbox.util;
+
+using System.Diagnostics;
+using Xceed.Words.NET;
 
 namespace Erp_MAUI;
 
@@ -60,7 +65,24 @@ public partial class MainPage : ContentPage
     }
 
 
-   
+    void ConvertPDF(object sender, EventArgs e)
+    {
+        PDDocument doc = null;
+        doc = PDDocument.load("");
+        PDFTextStripper textStrip = new PDFTextStripper();
+        string strPDFText = textStrip.getText(doc);
+        doc.close();
+
+        string fn = @"C:\Users\Downloads\sample.docx";
+        var wordDoc = DocX.Create(fn);
+        wordDoc.InsertParagraph(strPDFText);
+        wordDoc.Save();
+        Process.Start("WINWORD.EXE",fn);
+    }
+
+
+
+
 
 
 
